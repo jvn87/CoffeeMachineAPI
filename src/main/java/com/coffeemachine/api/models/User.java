@@ -19,7 +19,7 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @JsonIgnore // evita que a password seja devolvida nos endpoints
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
@@ -27,7 +27,6 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
-    // construtores
     public User() {}
 
     public User(String username, String password, Role role) {
@@ -36,7 +35,7 @@ public class User {
         this.role = role;
     }
 
-    // getters e setters
+
     public Long getId() {
         return id;
     }

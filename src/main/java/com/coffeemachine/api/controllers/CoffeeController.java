@@ -16,18 +16,19 @@ public class CoffeeController {
         this.coffeeService = coffeeService;
     }
 
-    // GET /coffees - list all (or we could return only available)
+    // GET existing coffees
     @GetMapping
     public ResponseEntity<List<Coffee>> getAll() {
         return ResponseEntity.ok(coffeeService.listAll());
     }
 
-    // GET /coffees/available - convenience endpoint
+    // GET available coffees
     @GetMapping("/available")
     public ResponseEntity<List<Coffee>> getAvailable() {
         return ResponseEntity.ok(coffeeService.listAvailable());
     }
 
+    // GET existing coffees by ID
     @GetMapping("/{id}")
     public ResponseEntity<Coffee> getById(@PathVariable Long id) {
         return coffeeService.findById(id)

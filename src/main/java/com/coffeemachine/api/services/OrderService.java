@@ -38,7 +38,6 @@ public class OrderService {
             throw new IllegalStateException("Coffee not available: " + coffee.getName());
         }
 
-        // criar encomenda
         Order order = new Order();
         order.setCoffeeId(coffeeId);
         order.setUserId(userId);
@@ -53,18 +52,17 @@ public class OrderService {
 
         Order saved = orderRepository.save(order);
 
-        // atualizar estado da máquina (consumir água, incrementar número de cafés)
         machineService.consumeWaterForCup();
 
         return saved;
     }
 
-    // listar todas as encomendas
+    // List all orders
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
-    // obter uma encomenda específica
+    // List order by ID
     public Optional<Order> getOrderById(Long id) {
         return orderRepository.findById(id);
     }

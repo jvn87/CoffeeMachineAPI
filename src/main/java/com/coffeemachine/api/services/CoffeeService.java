@@ -18,7 +18,7 @@ public class CoffeeService {
         return coffeeRepository.findAll();
     }
 
-    public List<Coffee> listAvailable() {
+    public List<Coffee> listAvailable(){
         return coffeeRepository.findByAvailableTrue();
     }
 

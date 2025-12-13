@@ -15,19 +15,12 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        // Endpoints públicos (qualquer utilizador, mesmo não autenticado)
                         .requestMatchers(new AntPathRequestMatcher("/coffees/**")).permitAll()
-
-                        // Endpoints reservados a utilizadores registados (role USER)
                         .requestMatchers(new AntPathRequestMatcher("/orders/**")).hasAnyRole("USER","ADMIN")
-
-                        // Endpoints reservados a administradores (role ADMIN)
                         .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasRole("ADMIN")
-
-                        // Qualquer outro endpoint exige autenticação
                         .anyRequest().authenticated()
                 )
-                .httpBasic(); // autenticação básica para Postman
+                .httpBasic();
         return http.build();
     }
     @Bean

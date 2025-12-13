@@ -20,7 +20,6 @@ public class ProfileController {
         this.orderRepository = orderRepository;
     }
 
-    // Para já, recebemos o userId via query param (temporário)
     @GetMapping("/me")
     public User getProfile(@RequestParam Long userId) {
         return userRepository.findById(userId).orElseThrow();

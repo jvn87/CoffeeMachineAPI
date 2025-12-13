@@ -19,5 +19,4 @@ public class MachineController {
         return ResponseEntity.ok(machineService.getStatus());
     }
 
-    // Admin endpoints exist but for unregistered flow we don't need them now
 }

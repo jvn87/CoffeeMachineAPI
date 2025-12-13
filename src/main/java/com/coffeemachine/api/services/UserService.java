@@ -18,7 +18,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // Registar novo utilizador com role USER por defeito
+    // Register new user
     public User registerUser(String username, String rawPassword) {
         if (userRepository.findByUsername(username).isPresent()) {
             throw new IllegalArgumentException("Username já existe!");
@@ -29,17 +29,17 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    // Procurar utilizador por username
+    // Search user by username
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
-    // Validar password
+    // Validate password
     public boolean checkPassword(User user, String rawPassword) {
         return passwordEncoder.matches(rawPassword, user.getPassword());
     }
 
-    // Obter ID do utilizador autenticado
+    // Find user ID by username
     public Long findIdByUsername(String username) {
         return userRepository.findByUsername(username)
                 .map(User::getId)

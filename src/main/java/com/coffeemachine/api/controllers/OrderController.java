@@ -23,7 +23,7 @@ public class OrderController {
         this.userService = userService;
     }
 
-    // POST /orders → cria encomenda associada ao utilizador autenticado
+    // POST order to registered user
     @PostMapping
     public ResponseEntity<?> placeOrder(@RequestBody Map<String, Object> payload,
                                         Authentication authentication) {
@@ -32,7 +32,6 @@ public class OrderController {
         String cupSize = payload.get("cupSize") == null ? "Medium" : payload.get("cupSize").toString();
 
         try {
-            // obter username do utilizador autenticado
             String username = authentication.getName();
             Long userId = userService.findIdByUsername(username);
 
@@ -48,13 +47,11 @@ public class OrderController {
         }
     }
 
-    // GET /orders → lista todas as encomendas
     @GetMapping
     public List<Order> getAllOrders() {
         return orderService.getAllOrders();
     }
 
-    // GET /orders/{id} → devolve uma encomenda específica
     @GetMapping("/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
         return orderService.getOrderById(id)

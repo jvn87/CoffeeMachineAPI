@@ -19,8 +19,8 @@ INSERT INTO machine_status (water_ml, cups_made, maintenance_required)
 VALUES (1000, 0, FALSE);
 
 -- Inserir utilizadores iniciais
-INSERT INTO users (username, password, role, created_at)
-VALUES ('admin', '$2a$12$loTaPwXUJsas7UqPWspiKunY/0Lxp2jvK2hF5j3CpFAvgFfPOHN8e', 'ADMIN', CURRENT_TIMESTAMP);
+INSERT INTO users (username, password, role)
+VALUES ('admin', '$2a$12$loTaPwXUJsas7UqPWspiKunY/0Lxp2jvK2hF5j3CpFAvgFfPOHN8e', 'ADMIN');
 
-INSERT INTO users (username, password, role, created_at)
-VALUES ('joao', '$2a$12$HvdcfCgvlwWResYzVLt7iuqh5Nj66YgUZ6uPTFiGLkbFfp5AHabe6', 'USER', CURRENT_TIMESTAMP);
+INSERT INTO users (username, password, role)
+VALUES ('joao', '$2a$12$HvdcfCgvlwWResYzVLt7iuqh5Nj66YgUZ6uPTFiGLkbFfp5AHabe6', 'USER');

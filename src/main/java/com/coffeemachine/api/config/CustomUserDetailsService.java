@@ -21,8 +21,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getUsername())
-                .password(user.getPassword()) // hash BCrypt guardado no data.sql
-                .roles(user.getRole().name()) // enum Role → String
+                .password(user.getPassword())
+                .roles(user.getRole().name())
                 .build();
     }
 }

@@ -21,10 +21,7 @@ public class AdminController {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
 
-    public AdminController(CoffeeRepository coffeeRepository,
-                           MachineService machineService,
-                           OrderRepository orderRepository,
-                           UserRepository userRepository) {
+    public AdminController(CoffeeRepository coffeeRepository, MachineService machineService, OrderRepository orderRepository, UserRepository userRepository) {
         this.coffeeRepository = coffeeRepository;
         this.machineService = machineService;
         this.orderRepository = orderRepository;
@@ -32,15 +29,22 @@ public class AdminController {
     }
 
     // ----------------- Coffee CRUD -----------------
+    @GetMapping("/coffees")
+    public List<Coffee> getAllCoffees() {
+        return coffeeRepository.findAll();
+    }
+
+    @GetMapping("/coffees/{id}")
+    public ResponseEntity<Coffee> getCoffeeById(@PathVariable Long id) {
+        return coffeeRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @PostMapping("/coffees")
     public ResponseEntity<Coffee> createCoffee(@RequestBody Coffee coffee) {
         Coffee saved = coffeeRepository.save(coffee);
         return ResponseEntity.created(URI.create("/coffees/" + saved.getId())).body(saved);
-    }
-
-    @GetMapping("/coffees")
-    public List<Coffee> getAllCoffees() {
-        return coffeeRepository.findAll();
     }
 
     @PutMapping("/coffees/{id}")

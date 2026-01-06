@@ -1,9 +1,12 @@
 package com.coffeemachine.api.controllers;
 
+import com.coffeemachine.api.config.CustomUserDetails;
 import com.coffeemachine.api.models.Order;
+import com.coffeemachine.api.models.User;
 import com.coffeemachine.api.services.OrderService;
 import com.coffeemachine.api.services.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,14 +51,36 @@ public class OrderController {
     }
 
     @GetMapping
-    public List<Order> getAllOrders() {
+    public List<Order> getAllOrders(Authentication authentication) {
+        CustomUserDetails cud = (CustomUserDetails) authentication.getPrincipal();
+        User authenticated = cud.getUser();
+        if (authenticated.getRole() != User.Role.ADMIN) {
+            throw new AccessDeniedException("Only admin can view all orders");
+        }
         return orderService.getAllOrders();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
+    public ResponseEntity<?> getOrderById(@PathVariable Long id, Authentication authentication) {
+        CustomUserDetails cud = (CustomUserDetails) authentication.getPrincipal();
+        User authenticated = cud.getUser();
         return orderService.getOrderById(id)
-                .map(ResponseEntity::ok)
+                .map(order -> {
+                    // USER só pode ver as próprias ordens
+                    if (!order.getUserId().equals(authenticated.getId()) && authenticated.getRole() != User.Role.ADMIN) {
+                        return ResponseEntity.status(403).body(Map.of("error", "You cannot view this order"));
+                    }
+                    return ResponseEntity.ok(order);
+                })
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/my")
+    public List<Order> getMyOrders(Authentication authentication) {
+        CustomUserDetails cud = (CustomUserDetails) authentication.getPrincipal();
+        User authenticated = cud.getUser();
+        return orderService.getAllOrders().stream()
+                .filter(o -> o.getUserId().equals(authenticated.getId()))
+                .toList();
     }
 }

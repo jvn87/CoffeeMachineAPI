@@ -24,3 +24,5 @@ VALUES ('admin', '$2a$12$loTaPwXUJsas7UqPWspiKunY/0Lxp2jvK2hF5j3CpFAvgFfPOHN8e',
 
 INSERT INTO users (username, password, role)
 VALUES ('joao', '$2a$12$HvdcfCgvlwWResYzVLt7iuqh5Nj66YgUZ6uPTFiGLkbFfp5AHabe6', 'USER');
+INSERT INTO users (username, password, role)
+VALUES ('joao2', '$2a$12$HvdcfCgvlwWResYzVLt7iuqh5Nj66YgUZ6uPTFiGLkbFfp5AHabe6', 'USER');

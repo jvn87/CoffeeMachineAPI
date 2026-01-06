@@ -1,9 +1,11 @@
 package com.coffeemachine.api.controllers;
 
+import com.coffeemachine.api.config.CustomUserDetails;
 import com.coffeemachine.api.models.Order;
 import com.coffeemachine.api.models.User;
 import com.coffeemachine.api.repositories.OrderRepository;
 import com.coffeemachine.api.repositories.UserRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,12 +23,15 @@ public class ProfileController {
     }
 
     @GetMapping("/me")
-    public User getProfile(@RequestParam Long userId) {
-        return userRepository.findById(userId).orElseThrow();
+    public User getMyProfile(Authentication authentication) {
+        CustomUserDetails cud = (CustomUserDetails) authentication.getPrincipal();
+        return cud.getUser();
     }
 
     @GetMapping("/orders")
-    public List<Order> getMyOrders(@RequestParam Long userId) {
-        return orderRepository.findByUserId(userId);
+    public List<Order> getMyOrders(Authentication authentication) {
+        CustomUserDetails cud = (CustomUserDetails) authentication.getPrincipal();
+        User authenticated = cud.getUser();
+        return orderRepository.findByUserId(authenticated.getId());
     }
 }

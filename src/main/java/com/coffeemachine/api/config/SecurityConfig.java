@@ -18,6 +18,7 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/coffees/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/orders/**")).hasAnyRole("USER","ADMIN")
                         .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasRole("ADMIN")
+                        .requestMatchers(new AntPathRequestMatcher("/machine/status")).permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic();
